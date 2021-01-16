@@ -1,10 +1,10 @@
-import './TaskContainer.css'
+import './TaskList.css'
 import { useState } from 'react'
 import Task from './Task'
-import Form from './Form'
+import TaskForm from './TaskForm'
 
 
-function TaskContainer() {
+function TaskContainer({title}) {
 
   const initialTasks = []
   const initialCount = 0
@@ -24,8 +24,9 @@ function TaskContainer() {
 
   }
   return(
-    <div className="taskContainer">
-      <Form registerNewTask={_registerNewTask}/>
+    <div className="taskList">
+      <h2>{title}</h2>
+      <TaskForm registerNewTask={_registerNewTask}/>
       {tasks.map((task) => (
         <Task key={task.id} taskText={task.text} />
       ))}

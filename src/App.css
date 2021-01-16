@@ -1,8 +1,7 @@
 .App {
   min-height: 100vh;
-  background-image: url('./images/pine_trees.jpg');
-  background-size: cover;
+  background: rgb(0,255,149);
+  background: linear-gradient(90deg, rgba(0,255,149,1) 0%, rgba(0,212,255,1) 100%); 
   display: flex;
-  justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }

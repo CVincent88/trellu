@@ -1,7 +1,7 @@
-import './Form.css'
+import './TaskForm.css'
 import { useState } from 'react'
 
-function Form({registerNewTask}) {
+function TaskForm({registerNewTask}) {
 
   const [newTaskText, setNewTaskText] = useState('')
 
@@ -15,15 +15,16 @@ function Form({registerNewTask}) {
 
   return(
     <form className='form' onSubmit={(e) => _submitTask(e, newTaskText)}>
-      <input 
+      <textarea 
         value={newTaskText}
         onChange={(e) => setNewTaskText(e.target.value)}  
         name="New task"
         type="text"
+        rows={2}
       />
-      <button>Add</button>
+      <button>Ajouter</button>
     </form>
   )
 }
 
-export default Form
+export default TaskForm
