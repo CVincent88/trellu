@@ -8,9 +8,11 @@ function TaskForm({registerNewTask}) {
   const _submitTask = (e, newTaskText) => {
     e.preventDefault()
 
-    registerNewTask(newTaskText)
+    if(newTaskText !== ''){
+      registerNewTask(newTaskText)
 
-    setNewTaskText( newTaskText = '')
+      setNewTaskText( newTaskText = '')
+    }
   }
 
   return(
@@ -22,7 +24,7 @@ function TaskForm({registerNewTask}) {
         type="text"
         rows={2}
       />
-      <button>Ajouter</button>
+      <button className="validateButton">Ajouter</button>
     </form>
   )
 }

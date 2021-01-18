@@ -16,7 +16,7 @@ textarea{
   margin: 5px 0;
 }
 
-button{
+.validateButton{
   width: 100%;
   border-radius: 10px 10px;
   border: 0;

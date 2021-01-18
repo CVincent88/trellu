@@ -1,9 +1,8 @@
-.singleTask{
-  background-color: rgb(255, 255, 255);
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  width: 100%;
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 10px 10px;
-  text-align: justify;
+.optionIcon{
+  padding: 4px;
+  border-radius: 5px 5px;
+}
+
+.optionIcon:hover{
+  background-color: rgba(170, 170, 170, 0.562);
 }

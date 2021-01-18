@@ -8,9 +8,10 @@ function ListForm({registerNewList}) {
   const _submitList = (e, newListTitle) => {
     e.preventDefault()
 
-    registerNewList(newListTitle)
-
-    setnewListTitle( newListTitle = '')
+    if(newListTitle !== ''){
+      registerNewList(newListTitle)
+      setnewListTitle( newListTitle = '')
+    }
   }
 
   return(
@@ -22,7 +23,7 @@ function ListForm({registerNewList}) {
         type="text"
         placeholder="Titre de la liste"
       />
-      <button>Ajouter une liste</button>
+      <button className="validateButton">Ajouter une liste</button>
     </form>
   )
 }
