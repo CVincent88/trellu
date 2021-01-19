@@ -1,7 +1,7 @@
-import './Column.css'
 import React from 'react'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import Task from './tasks/Task'
+import TaskForm from './tasks/TaskForm'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -13,8 +13,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   max-height: 90vh;
-  max-width: 17vw;
-  min-width: 17vw;
+  width: 20vw;
 `;
 
 const TaskList = styled.div`
@@ -22,8 +21,7 @@ const TaskList = styled.div`
   transition: background-color .3s;
   width: 100%;
   border-radius: 10px 10px;
-  min-height: 100px;
-  flex-grow: 1;
+  min-height: 10px;
 `;
 
 const Title = styled.h3`
@@ -42,15 +40,16 @@ class InnerList extends React.Component {
   }
 
   render() {
+    const { tasks, deleteTask, columnId } = this.props
     return(
-      this.props.tasks.map((task, index) => 
-        <Task key={task.id} task={task} index={index} />
+      tasks.map((task, index) =>
+        <Task key={task.id} task={task} index={index} deleteTask={deleteTask} columnId={columnId}/>
       )
     )
   }
 }
 
-function Column({column, tasks, index}) {
+function Column({column, tasks, index, registerNewTask, deleteTask}) {
   return(
     <Draggable 
       draggableId={column.id}
@@ -62,6 +61,7 @@ function Column({column, tasks, index}) {
           ref={provided.innerRef}
         >
           <Title {...provided.dragHandleProps} >{column.title}</Title>
+          <TaskForm registerNewTask={registerNewTask} columnId={column.id}/>
           <Droppable droppableId={column.id} type="task">
             {(provided, snapshot) => (
               <TaskList 
@@ -69,7 +69,7 @@ function Column({column, tasks, index}) {
                 {...provided.droppableProps}
                 isDraggingOver={snapshot.isDraggingOver}
               >
-                <InnerList tasks={tasks}/>
+                <InnerList tasks={tasks} deleteTask={deleteTask} columnId={column.id}/>
                 {provided.placeholder}
               </TaskList>
             )}

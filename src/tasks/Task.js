@@ -1,41 +1,74 @@
-import './Task.css'
+import { useState } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
-// import OptionMenu from './OptionMenu'
+import OptionMenu from './OptionMenu'
 import optionIcon from '../images/ellipsis-v-solid.svg'
+import dragIcon from '../images/grip-lines-solid.svg'
 import styled from 'styled-components'
 
-// import { useState } from 'react'
 
 const Container = styled.div`
   background-color: ${props => (props.isDragging ? 'lightgreen' : '#fff')};
   border: 1px solid rgba(0, 0, 0, 0.15);
   width: 100%;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 10px 0;
   border-radius: 10px 10px;
   text-align: justify;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 `;
 
-function Task({index, task, columnId}) {
+const Options = styled.img`
+  padding: 4px;
+  border-radius: 5px 5px;
+  cursor: pointer;
+  &:hover{
+    background-color: rgba(170, 170, 170, 0.562);
+  }
+`;
 
-  // const [menuIsDisplayed, setIsMenuDisplayed] = useState(false)
-  // const [optionMenuClassName, setOptionMenuClassName] = useState([''])
+const Content = styled.div`
+  display: flex;
+  align-items: center;
+  text-decoration: ${props => (props.validated ? 'line-through' : 'none')};
+  margin: 0 10px
+`;
 
-  // const displayMenu = () => {
-  //   if(menuIsDisplayed === true){
-  //     setIsMenuDisplayed(prevState => prevState = false)
-  //     setOptionMenuClassName(prevClassNames => [...prevClassNames], 'optionContainerVisible')
-  //     console.log(menuIsDisplayed)
-  //   }
-  //   else{
-  //     setIsMenuDisplayed(prevState => prevState = true)
-  //     setOptionMenuClassName(prevState => prevState = '' )
-  //     console.log(menuIsDisplayed)
-  //   } 
-  // }
+const DragHandle = styled.img`
+  margin-right: 8px
+`;
+
+function Task({index, task, deleteTask, columnId}) {
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [menuToOpen, setMenuToOpen] = useState('')
+  const [isTaskValidated, setIsTaskValidated] = useState(false)
+
+  const handleOnClickOptions = (taskId) => {
+    if(isMenuOpen === false){
+      setMenuToOpen(taskId)
+      setIsMenuOpen(prevState => prevState = !prevState)
+    }else{
+      setMenuToOpen('')
+      setIsMenuOpen(prevState => prevState = !prevState)
+    }
+  }
+
+  const onTaskValidated = (taskValidated, taskId) => {
+    if(taskValidated){
+      setIsTaskValidated(prevState => prevState = !prevState)
+      setMenuToOpen(taskId)
+      setIsMenuOpen(prevState => prevState = !prevState)
+      return false
+    }else{
+      setIsTaskValidated(prevState => prevState = !prevState)
+      setMenuToOpen(taskId)
+      setIsMenuOpen(prevState => prevState = !prevState)
+      return true
+    }
+  }
   
   return(
     <Draggable
@@ -45,13 +78,16 @@ function Task({index, task, columnId}) {
       {(provided, snapshot) => (
         <Container 
           {...provided.draggableProps}
-          {...provided.dragHandleProps}
           ref={provided.innerRef}
           isDragging={snapshot.isDragging}
           aria-roledescription="Press space bar to lift the task"
         > 
-          <p>{task.content}</p>
-          <img alt="Logo menu" className="optionIcon" src={optionIcon} />
+          <Content validated={isTaskValidated}>
+            <DragHandle {...provided.dragHandleProps} alt="Drag handle" src={dragIcon}/>
+            {task.content}
+          </Content>
+          <Options onClick={() => handleOnClickOptions(task.id)} alt="Logo menu" src={optionIcon} />
+          <OptionMenu onTaskValidated={onTaskValidated} columnId={columnId} taskId={task.id} menuToOpen={menuToOpen} deleteTask={deleteTask}/>
         </Container>
       )}
     </Draggable>

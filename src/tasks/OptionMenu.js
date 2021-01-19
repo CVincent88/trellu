@@ -1,20 +1,31 @@
-import './OptionMenu.css'
+import styled from 'styled-components'
 
-function OptionMenu({containerStyle}) {
+const Container = styled.div`
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: -70px;
+  z-index: 999;
+  visibility: ${props => (props.taskId === props.menuToOpen ? 'visible' : 'hidden')};
+`;
 
-  const handleOnClickValidation = () => {
-    
+const Button = styled.button`
+  background-color: #fff;
+  padding: 5px;
+  border: 0;
+  &:hover{
+    background-color: rgba(190, 190, 190, 0.438);
   }
+`;
 
-  const handleOnClickDelete = () => {
-
-  }
+function OptionMenu({taskId, columnId, menuToOpen, onTaskValidated, deleteTask}) {  
 
   return(
-    <div className={containerStyle + ' optionContainer'}>
-      <button className="optionMenuButton" onClick={() => handleOnClickValidation}>Valider</button>
-      <button className="optionMenuButton" onClick={() => handleOnClickDelete}>Supprimer</button>
-    </div>
+    <Container taskId={taskId} menuToOpen={menuToOpen}>
+      <Button onClick={() => onTaskValidated(taskId)}>Valider</Button>
+      <Button onClick={() => deleteTask(columnId, taskId)}>Supprimer</Button>
+    </Container>
   )
 }
 

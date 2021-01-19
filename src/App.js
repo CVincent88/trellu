@@ -1,73 +1,138 @@
-// import './App.css';
-// import Header from './Header'
-// import ListCreator from './ListCreator'
-// import TaskList from './tasks/TaskList'
-
-// import { useState } from 'react'
-
-// function App() {
-
-//   const [ToDoLists, setToDoLists] = useState([])
-//   const [counter, setCounter] = useState(0)
-//   const [tasksId, setTasksId] = useState([])
-
-//   const createNewList = (title) => {
-//     setCounter(prevState => prevState + 1)
-
-//     const newList = {
-//       id: `list-${counter}`,
-//       title: title
-//     }
-
-//     setToDoLists(previousLists => [...previousLists, newList])
-//   }
-
-//   const updateList = (taskId) => {
-//     setTasksId(prevList => [...prevList, taskId])
-//     console.log(ToDoLists)
-//   }
-
-//   return (
-//     <div className="App">
-//       <Header />
-//       <div className="body">
-//         {ToDoLists.map(list => (
-//           <TaskList key={list.id} title={list.title} updateList={updateList}/>
-//         ))}
-//         <ListCreator registerNewList={createNewList} />
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default App;
-
-
 import './App.css';
 import React, { useState } from 'react'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
-import initialData from './initial-data'
+// import initialData from './initial-data'
 import Header from './Header'
 import Column from './Column'
+import ListCreator from './ListCreator'
 
 import styled from 'styled-components'
 
 const Container = styled.div`
   display: flex;
+  align-items: flex-start;
 `;
 
 class InnerList extends React.PureComponent {
-
   render() {
-      const { column, taskMap, index } = this.props
+      const { column, taskMap, index, registerNewTask, deleteTask } = this.props
       const tasks = column.tasksIds.map(taskId => taskMap[taskId])
-      return <Column column={column} tasks={tasks} index={index} />
+      return (
+        <Column 
+          column={column} 
+          tasks={tasks} 
+          index={index} 
+          registerNewTask={registerNewTask} 
+          deleteTask={deleteTask}
+        />
+      )
   }
 }
 
 function App() {
 
+  const initialData = {
+    tasks: {
+
+    },
+    columns: {
+      
+    },
+    columnOrder: []
+  };
   const [data, setData] = useState(initialData)
+
+  const registerNewList = (title) => {
+    const {columns, columnOrder} = data
+
+    const newColumn = {
+      id: `column-${columnOrder.length + 1}`,
+      title: title,
+      tasksIds: []
+    }
+
+    const newColumnOrder = [
+      ...columnOrder,
+      newColumn.id
+    ]
+
+    const newState = {
+      ...data,
+      columns: {
+        ...columns,
+        [newColumn.id]: {
+          ...newColumn
+        }
+      },
+      columnOrder: newColumnOrder
+    }
+
+    setData(prevState => {
+      return {...prevState, ...newState}
+    })
+
+  }
+
+  const registerNewTask = (newTaskContent, originColumnId) => {
+
+    const {tasks, columns} = data
+
+    const newTask = {
+      id: `task-${Object.keys(tasks).length + 1}`,
+      content: newTaskContent
+    }
+
+    const newTasksIds = [
+      ...columns[originColumnId].tasksIds,
+      newTask.id
+    ]
+
+    const newState = {
+      ...data,
+      tasks: {
+        ...tasks,
+        [newTask.id]: {
+          id: newTask.id,
+          content: newTask.content
+        }
+      },
+      columns: {
+        ...columns,
+        [originColumnId]: {
+          ...columns[originColumnId],
+          tasksIds: newTasksIds
+        }
+      }
+    }
+
+    setData(prevState => {
+      return {...prevState, ...newState}
+    })
+
+  }
+
+  const deleteTask = (columnId, taskId) => {
+    const newTasksList = data.tasks
+    delete newTasksList[taskId]
+
+    const newColumnsContent = data.columns
+    const index = newColumnsContent[columnId].tasksIds.indexOf(taskId)
+    newColumnsContent[columnId].tasksIds.splice(index, 1)
+
+    const newState = {
+      ...data,
+      tasks: {
+        ...newTasksList
+      },
+      columns: {
+        ...newColumnsContent
+      }
+    }
+
+    setData(prevState => {
+      return {...prevState, ...newState}
+    })
+  }
 
   const onDragStart = (start, provided) => {
     provided.announce(`You have lifted the task in position ${start.source.index + 1}`)
@@ -83,6 +148,7 @@ function App() {
 
   const onDragEnd = (result, provided) => {
     const { destination, source, draggableId, type } = result
+
     const message = result.destination
     ? `You have moved the task from position
       ${result.source.index + 1} to ${result.destination.index + 1}`
@@ -183,9 +249,9 @@ function App() {
     <div className="App">
       <Header />
       <DragDropContext 
-        onDragStart={(start) => onDragStart(start)}
-        onDragUpdate={(update) => onDragUpdate(update)}
-        onDragEnd={(result) => onDragEnd(result)}
+        onDragStart={(start, provided) => onDragStart(start, provided)}
+        onDragUpdate={(update, provided) => onDragUpdate(update, provided)}
+        onDragEnd={(result, provided) => onDragEnd(result, provided)}
       >
         <Droppable droppableId="all-columns" direction="horizontal" type="column">
           {(provided) => (
@@ -195,22 +261,27 @@ function App() {
             >
               {data.columnOrder.map((columnId, index) => {
                 const column = data.columns[columnId]
-
+                
                 return (
                   <InnerList 
                     key={column.id} 
                     column={column} 
                     taskMap={data.tasks} 
-                    index={index} 
+                    index={index}
+                    registerNewTask={registerNewTask}
+                    deleteTask={deleteTask}
                   />
                 )
               })}
               {provided.placeholder}
+              <ListCreator registerNewList={registerNewList} />
             </Container>
           )}
+          
         </Droppable>
+        
       </DragDropContext>
-
+      
     </div>
   )
 }
