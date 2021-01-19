@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import TaskOptionMenu from './TaskOptionMenu'
 import optionIcon from '../images/ellipsis-v-solid.svg'
@@ -9,7 +8,7 @@ import styled from 'styled-components'
 const Container = styled.div`
   background-color: 
     ${props => (
-      props.validated 
+      props.task.validated 
         ? '#aaaaaa'
         : props.isDragging 
           ? 'lightgreen' 
@@ -40,7 +39,7 @@ const OptionIcon = styled.img`
 const Content = styled.div`
   display: flex;
   align-items: center;
-  text-decoration: ${props => (props.validated ? 'line-through' : 'none')};
+  text-decoration: ${props => (props.task.validated ? 'line-through' : 'none')};
   margin: 0 10px
 `;
 
@@ -48,14 +47,7 @@ const DragHandle = styled.img`
   margin-right: 8px
 `;
 
-function Task({index, task, deleteElement, columnId, toggleMenu, menuToOpen}) {
-
-  const [isTaskValidated, setIsTaskValidated] = useState(false)
-
-  const validateTask = (taskId) => {
-    setIsTaskValidated(prevState => prevState = !prevState)
-    toggleMenu(taskId)
-  }
+function Task({index, task, deleteElement, columnId, toggleMenu, validateTask, menuToOpen}) {
 
   return(
     <Draggable
@@ -68,9 +60,9 @@ function Task({index, task, deleteElement, columnId, toggleMenu, menuToOpen}) {
           ref={provided.innerRef}
           isDragging={snapshot.isDragging}
           aria-roledescription="Press space bar to lift the task"
-          validated={isTaskValidated}
+          task={task}
         > 
-          <Content validated={isTaskValidated}>
+          <Content validated={task.validated} task={task}>
             <DragHandle {...provided.dragHandleProps} alt="Drag handle" src={dragIcon}/>
             {task.content}
           </Content>
@@ -78,9 +70,10 @@ function Task({index, task, deleteElement, columnId, toggleMenu, menuToOpen}) {
           <TaskOptionMenu 
             onTaskValidated={validateTask}
             columnId={columnId} 
-            taskId={task.id}
+            task={task}
             menuToOpen={menuToOpen} 
             deleteElement={deleteElement}
+            validateTask={validateTask}
           />
         </Container>
       )}

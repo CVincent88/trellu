@@ -21,8 +21,9 @@ class InnerList extends React.PureComponent {
         index, 
         registerNewTask, 
         deleteElement, 
-        toggleMenu, 
-        menuToOpen 
+        validateTask, 
+        menuToOpen,
+        toggleMenu
       } = this.props
       const tasks = column.tasksIds.map(taskId => taskMap[taskId])
       return (
@@ -32,8 +33,9 @@ class InnerList extends React.PureComponent {
           index={index} 
           registerNewTask={registerNewTask} 
           deleteElement={deleteElement}
-          toggleMenu={toggleMenu}
+          validateTask={validateTask}
           menuToOpen={menuToOpen}
+          toggleMenu={toggleMenu}
         />
       )
   }
@@ -102,7 +104,8 @@ function App() {
 
     const newTask = {
       id: `task-${Object.keys(tasks).length + 1}`,
-      content: newTaskContent
+      content: newTaskContent,
+      validated: false
     }
 
     const newTasksIds = [
@@ -115,8 +118,7 @@ function App() {
       tasks: {
         ...tasks,
         [newTask.id]: {
-          id: newTask.id,
-          content: newTask.content
+          ...newTask
         }
       },
       columns: {
@@ -132,6 +134,50 @@ function App() {
       return {...prevState, ...newState}
     })
 
+  }
+
+  const validateTask = (taskId) => {
+    console.log(data.tasks[taskId]);
+    if(data.tasks[taskId].validated === false){
+      const newTask = {
+        ...data.tasks[taskId],
+        validated: true
+      }
+      const newState = {
+        ...data,
+        tasks: {
+          ...data.tasks,
+          [newTask.id]: {
+            ...newTask
+          }
+        }
+      }
+
+      setData(prevState => {
+        return {...prevState, ...newState}
+      })
+
+    }else{
+      const newTask = {
+        ...data.tasks[taskId],
+        validated: false
+      }
+      const newState = {
+        ...data,
+        tasks: {
+          ...data.tasks,
+          [newTask.id]: {
+            ...newTask
+          }
+        }
+      }
+
+      setData(prevState => {
+        return {...prevState, ...newState}
+      })
+    }
+
+    toggleMenu(taskId)
   }
 
   const deleteElement = (type, columnId, taskId) => {
@@ -152,6 +198,9 @@ function App() {
           ...newColumnsContent
         }
       }
+
+      // We close the menu here, otherwise it will be opened on the next task created.
+      toggleMenu(taskId)
 
       setData(prevState => {
         return {...prevState, ...newState}
@@ -314,8 +363,9 @@ function App() {
                     index={index}
                     registerNewTask={registerNewTask}
                     deleteElement={deleteElement}
-                    toggleMenu={toggleMenu}
+                    validateTask={validateTask}
                     menuToOpen={menuToOpen}
+                    toggleMenu={toggleMenu}
                   />
                 )
               })}

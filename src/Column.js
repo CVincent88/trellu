@@ -69,8 +69,9 @@ class InnerList extends React.Component {
       tasks, 
       deleteElement, 
       columnId, 
-      toggleMenu, 
-      menuToOpen 
+      validateTask, 
+      menuToOpen,
+      toggleMenu
     } = this.props
 
     return(
@@ -81,15 +82,16 @@ class InnerList extends React.Component {
           index={index} 
           deleteElement={deleteElement} 
           columnId={columnId}
-          toggleMenu={toggleMenu}
+          validateTask={validateTask}
           menuToOpen={menuToOpen}
+          toggleMenu={toggleMenu}
         />
       )
     )
   }
 }
 
-function Column({column, tasks, index, registerNewTask, deleteElement, toggleMenu, menuToOpen}) {
+function Column({column, tasks, index, registerNewTask, deleteElement, toggleMenu, validateTask, menuToOpen}) {
   return(
     <Draggable 
       draggableId={column.id}
@@ -123,8 +125,9 @@ function Column({column, tasks, index, registerNewTask, deleteElement, toggleMen
                   tasks={tasks} 
                   deleteElement={deleteElement} 
                   columnId={column.id}
-                  toggleMenu={toggleMenu}
+                  validateTask={validateTask}
                   menuToOpen={menuToOpen}
+                  toggleMenu={toggleMenu}
                 />
                 {provided.placeholder}
               </TaskList>
