@@ -8,9 +8,16 @@ import ColumnOptionMenu from './ColumnOptionMenu'
 
 const Header = styled.div`
   display: flex;
-  align-items: center;
   justify-content: space-around;
+  align-items: center;
+  justify-content: space-between;
   position: relative;
+  width: 100%
+`;
+
+const Options = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const Container = styled.div`
@@ -95,12 +102,14 @@ function Column({column, tasks, index, registerNewTask, deleteElement, toggleMen
         >
           <Header {...provided.dragHandleProps}>
             <Title>{column.title}</Title>
-            <OptionIcon onClick={() => toggleMenu(column.id)} alt="Logo menu" src={optionIcon} />
-            <ColumnOptionMenu 
-              columnId={column.id}
-              menuToOpen={menuToOpen} 
-              deleteElement={deleteElement}
-            />
+            <Options>
+              <OptionIcon onClick={() => toggleMenu(column.id)} alt="Logo menu" src={optionIcon} />
+              <ColumnOptionMenu 
+                columnId={column.id}
+                menuToOpen={menuToOpen} 
+                deleteElement={deleteElement}
+              />
+            </Options>
           </Header>
           <TaskForm registerNewTask={registerNewTask} columnId={column.id}/>
           <Droppable droppableId={column.id} type="task">
