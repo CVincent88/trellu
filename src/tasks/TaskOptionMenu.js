@@ -19,14 +19,14 @@ const Button = styled.button`
   }
 `;
 
-function OptionMenu({taskId, columnId, menuToOpen, onTaskValidated, deleteTask}) {  
+function TaskOptionMenu({taskId, columnId, menuToOpen, onTaskValidated, deleteElement}) {  
 
   return(
     <Container taskId={taskId} menuToOpen={menuToOpen}>
       <Button onClick={() => onTaskValidated(taskId)}>Valider</Button>
-      <Button onClick={() => deleteTask(columnId, taskId)}>Supprimer</Button>
+      <Button onClick={() => deleteElement('task', columnId, taskId)}>Supprimer</Button>
     </Container>
   )
 }
 
-export default OptionMenu
+export default TaskOptionMenu

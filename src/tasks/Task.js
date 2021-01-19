@@ -1,13 +1,21 @@
 import { useState } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
-import OptionMenu from './OptionMenu'
+import TaskOptionMenu from './TaskOptionMenu'
 import optionIcon from '../images/ellipsis-v-solid.svg'
 import dragIcon from '../images/grip-lines-solid.svg'
 import styled from 'styled-components'
 
 
 const Container = styled.div`
-  background-color: ${props => (props.isDragging ? 'lightgreen' : '#fff')};
+  background-color: 
+    ${props => (
+      props.validated 
+        ? '#aaaaaa'
+        : props.isDragging 
+          ? 'lightgreen' 
+          : '#ffffff'
+       
+    )};
   border: 1px solid rgba(0, 0, 0, 0.15);
   width: 100%;
   margin-bottom: 10px;
@@ -20,7 +28,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const Options = styled.img`
+const OptionIcon = styled.img`
   padding: 4px;
   border-radius: 5px 5px;
   cursor: pointer;
@@ -40,36 +48,15 @@ const DragHandle = styled.img`
   margin-right: 8px
 `;
 
-function Task({index, task, deleteTask, columnId}) {
+function Task({index, task, deleteElement, columnId, toggleMenu, menuToOpen}) {
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [menuToOpen, setMenuToOpen] = useState('')
   const [isTaskValidated, setIsTaskValidated] = useState(false)
 
-  const handleOnClickOptions = (taskId) => {
-    if(isMenuOpen === false){
-      setMenuToOpen(taskId)
-      setIsMenuOpen(prevState => prevState = !prevState)
-    }else{
-      setMenuToOpen('')
-      setIsMenuOpen(prevState => prevState = !prevState)
-    }
+  const validateTask = (taskId) => {
+    setIsTaskValidated(prevState => prevState = !prevState)
+    toggleMenu(taskId)
   }
 
-  const onTaskValidated = (taskValidated, taskId) => {
-    if(taskValidated){
-      setIsTaskValidated(prevState => prevState = !prevState)
-      setMenuToOpen(taskId)
-      setIsMenuOpen(prevState => prevState = !prevState)
-      return false
-    }else{
-      setIsTaskValidated(prevState => prevState = !prevState)
-      setMenuToOpen(taskId)
-      setIsMenuOpen(prevState => prevState = !prevState)
-      return true
-    }
-  }
-  
   return(
     <Draggable
       draggableId={task.id}
@@ -81,13 +68,20 @@ function Task({index, task, deleteTask, columnId}) {
           ref={provided.innerRef}
           isDragging={snapshot.isDragging}
           aria-roledescription="Press space bar to lift the task"
+          validated={isTaskValidated}
         > 
           <Content validated={isTaskValidated}>
             <DragHandle {...provided.dragHandleProps} alt="Drag handle" src={dragIcon}/>
             {task.content}
           </Content>
-          <Options onClick={() => handleOnClickOptions(task.id)} alt="Logo menu" src={optionIcon} />
-          <OptionMenu onTaskValidated={onTaskValidated} columnId={columnId} taskId={task.id} menuToOpen={menuToOpen} deleteTask={deleteTask}/>
+          <OptionIcon onClick={() => toggleMenu(task.id)} alt="Logo menu" src={optionIcon} />
+          <TaskOptionMenu 
+            onTaskValidated={validateTask}
+            columnId={columnId} 
+            taskId={task.id}
+            menuToOpen={menuToOpen} 
+            deleteElement={deleteElement}
+          />
         </Container>
       )}
     </Draggable>

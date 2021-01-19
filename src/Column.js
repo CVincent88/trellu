@@ -3,6 +3,15 @@ import { Droppable, Draggable } from 'react-beautiful-dnd'
 import Task from './tasks/Task'
 import TaskForm from './tasks/TaskForm'
 import styled from 'styled-components'
+import optionIcon from './images/ellipsis-v-solid.svg'
+import ColumnOptionMenu from './ColumnOptionMenu' 
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+`;
 
 const Container = styled.div`
   background-color: rgba(255, 255, 255, 0.623);
@@ -14,6 +23,15 @@ const Container = styled.div`
   align-items: center;
   max-height: 90vh;
   width: 20vw;
+`;
+
+const OptionIcon = styled.img`
+  padding: 4px;
+  border-radius: 5px 5px;
+  cursor: pointer;
+  &:hover{
+    background-color: rgba(170, 170, 170, 0.562);
+  }
 `;
 
 const TaskList = styled.div`
@@ -40,16 +58,31 @@ class InnerList extends React.Component {
   }
 
   render() {
-    const { tasks, deleteTask, columnId } = this.props
+    const { 
+      tasks, 
+      deleteElement, 
+      columnId, 
+      toggleMenu, 
+      menuToOpen 
+    } = this.props
+
     return(
       tasks.map((task, index) =>
-        <Task key={task.id} task={task} index={index} deleteTask={deleteTask} columnId={columnId}/>
+        <Task 
+          key={task.id} 
+          task={task} 
+          index={index} 
+          deleteElement={deleteElement} 
+          columnId={columnId}
+          toggleMenu={toggleMenu}
+          menuToOpen={menuToOpen}
+        />
       )
     )
   }
 }
 
-function Column({column, tasks, index, registerNewTask, deleteTask}) {
+function Column({column, tasks, index, registerNewTask, deleteElement, toggleMenu, menuToOpen}) {
   return(
     <Draggable 
       draggableId={column.id}
@@ -60,7 +93,15 @@ function Column({column, tasks, index, registerNewTask, deleteTask}) {
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
-          <Title {...provided.dragHandleProps} >{column.title}</Title>
+          <Header {...provided.dragHandleProps}>
+            <Title>{column.title}</Title>
+            <OptionIcon onClick={() => toggleMenu(column.id)} alt="Logo menu" src={optionIcon} />
+            <ColumnOptionMenu 
+              columnId={column.id}
+              menuToOpen={menuToOpen} 
+              deleteElement={deleteElement}
+            />
+          </Header>
           <TaskForm registerNewTask={registerNewTask} columnId={column.id}/>
           <Droppable droppableId={column.id} type="task">
             {(provided, snapshot) => (
@@ -69,7 +110,13 @@ function Column({column, tasks, index, registerNewTask, deleteTask}) {
                 {...provided.droppableProps}
                 isDraggingOver={snapshot.isDraggingOver}
               >
-                <InnerList tasks={tasks} deleteTask={deleteTask} columnId={column.id}/>
+                <InnerList 
+                  tasks={tasks} 
+                  deleteElement={deleteElement} 
+                  columnId={column.id}
+                  toggleMenu={toggleMenu}
+                  menuToOpen={menuToOpen}
+                />
                 {provided.placeholder}
               </TaskList>
             )}

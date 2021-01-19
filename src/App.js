@@ -15,7 +15,15 @@ const Container = styled.div`
 
 class InnerList extends React.PureComponent {
   render() {
-      const { column, taskMap, index, registerNewTask, deleteTask } = this.props
+      const { 
+        column, 
+        taskMap, 
+        index, 
+        registerNewTask, 
+        deleteElement, 
+        toggleMenu, 
+        menuToOpen 
+      } = this.props
       const tasks = column.tasksIds.map(taskId => taskMap[taskId])
       return (
         <Column 
@@ -23,7 +31,9 @@ class InnerList extends React.PureComponent {
           tasks={tasks} 
           index={index} 
           registerNewTask={registerNewTask} 
-          deleteTask={deleteTask}
+          deleteElement={deleteElement}
+          toggleMenu={toggleMenu}
+          menuToOpen={menuToOpen}
         />
       )
   }
@@ -40,7 +50,20 @@ function App() {
     },
     columnOrder: []
   };
-  const [data, setData] = useState(initialData)
+  const [data, setData] = useState(initialData);
+  const [menuToOpen, setMenuToOpen] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false); 
+  
+
+  const toggleMenu = (menuId) => {
+    if(isMenuOpen === false){
+      setMenuToOpen(menuId)
+      setIsMenuOpen(prevState => prevState = !prevState)
+    }else{
+      setMenuToOpen('')
+      setIsMenuOpen(prevState => prevState = !prevState)
+    }    
+  }
 
   const registerNewList = (title) => {
     const {columns, columnOrder} = data
@@ -111,27 +134,48 @@ function App() {
 
   }
 
-  const deleteTask = (columnId, taskId) => {
-    const newTasksList = data.tasks
-    delete newTasksList[taskId]
+  const deleteElement = (type, columnId, taskId) => {
+    if(type === 'task'){
+      const newTasksList = data.tasks
+      delete newTasksList[taskId]
 
-    const newColumnsContent = data.columns
-    const index = newColumnsContent[columnId].tasksIds.indexOf(taskId)
-    newColumnsContent[columnId].tasksIds.splice(index, 1)
+      const newColumnsContent = data.columns
+      const index = newColumnsContent[columnId].tasksIds.indexOf(taskId)
+      newColumnsContent[columnId].tasksIds.splice(index, 1)
 
-    const newState = {
-      ...data,
-      tasks: {
-        ...newTasksList
-      },
-      columns: {
-        ...newColumnsContent
+      const newState = {
+        ...data,
+        tasks: {
+          ...newTasksList
+        },
+        columns: {
+          ...newColumnsContent
+        }
       }
-    }
 
-    setData(prevState => {
-      return {...prevState, ...newState}
-    })
+      setData(prevState => {
+        return {...prevState, ...newState}
+      })
+
+    }else if(type === 'column'){
+      const newColumnList = data.columns;
+      delete newColumnList[columnId]
+
+      const newColumnOrder = data.columnOrder
+      delete newColumnOrder[columnId]
+
+      const newState = {
+        ...data,
+        columns: {
+          newColumnList
+        },
+        newColumnOrder
+      }
+
+      setData(prevState => {
+        return {...prevState, ...newState}
+      })
+    }
   }
 
   const onDragStart = (start, provided) => {
@@ -269,7 +313,9 @@ function App() {
                     taskMap={data.tasks} 
                     index={index}
                     registerNewTask={registerNewTask}
-                    deleteTask={deleteTask}
+                    deleteElement={deleteElement}
+                    toggleMenu={toggleMenu}
+                    menuToOpen={menuToOpen}
                   />
                 )
               })}
