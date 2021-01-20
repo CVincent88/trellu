@@ -60,7 +60,7 @@ function ListForm({registerNewList}) {
         onChange={(e) => setnewListTitle(e.target.value)}  
         name="NewList"
         type="text"
-        placeholder="Titre de la liste"
+        placeholder="List title"
       />
       <Button 
         className="validateButton"
@@ -68,7 +68,7 @@ function ListForm({registerNewList}) {
         onMouseDown={() => toggleButtonLook()}
         onMouseUp={() => toggleButtonLook()}
       >
-        Ajouter une liste
+        Create a new list
       </Button>
     </Form>
   )

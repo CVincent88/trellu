@@ -66,7 +66,7 @@ function Task({index, task, deleteElement, columnId, toggleMenu, validateTask, m
             <DragHandle {...provided.dragHandleProps} alt="Drag handle" src={dragIcon}/>
             {task.content}
           </Content>
-          <OptionIcon onClick={() => toggleMenu(task.id)} alt="Logo menu" src={optionIcon} />
+          <OptionIcon onClick={() => toggleMenu(task.id)} alt="Menu icon" src={optionIcon} />
           <TaskOptionMenu 
             onTaskValidated={validateTask}
             columnId={columnId} 

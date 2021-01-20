@@ -64,7 +64,7 @@ function TaskForm({registerNewTask, columnId}) {
         name="New task"
         type="text"
         rows={2}
-        placeholder="Nouvelle tâche"
+        placeholder="New task"
       />
       <Button 
         mouseDown={buttonPressed}
@@ -72,7 +72,7 @@ function TaskForm({registerNewTask, columnId}) {
         onMouseUp={() => toggleButtonLook()}
         type="submit"
       >
-        Ajouter
+        Add
       </Button>
     </Form>
   )

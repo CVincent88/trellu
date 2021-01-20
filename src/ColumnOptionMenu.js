@@ -23,7 +23,7 @@ function ColumnOptionMenu({columnId, menuToOpen, deleteElement}) {
 
   return(
     <Container columnId={columnId} menuToOpen={menuToOpen}>
-      <Button onClick={() => deleteElement('column', columnId, '')} >Supprimer</Button>
+      <Button onClick={() => deleteElement('column', columnId, '')} >Delete</Button>
     </Container>
   )
 }

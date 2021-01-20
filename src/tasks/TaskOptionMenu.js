@@ -24,9 +24,9 @@ function TaskOptionMenu({task, columnId, menuToOpen, validateTask, deleteElement
   return(
     <Container taskId={task.id} menuToOpen={menuToOpen}>
       <Button onClick={() => validateTask(task.id)}>
-        {task.validated === false ? 'Valider' : 'Invalider'}
+        {task.validated === false ? 'Validate' : 'Undo'}
       </Button>
-      <Button onClick={() => deleteElement('task', columnId, task.id)}>Supprimer</Button>
+      <Button onClick={() => deleteElement('task', columnId, task.id)}>Delete</Button>
     </Container>
   )
 }
