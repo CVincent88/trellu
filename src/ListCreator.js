@@ -7,6 +7,7 @@ const Container = styled.div`
   margin: 10px;
   padding: 10px;
   border-radius: 10px 10px;
+  min-width: 17vw;
 `;
 
 function ListCreator({registerNewList}) {

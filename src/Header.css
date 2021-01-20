@@ -6,4 +6,6 @@
   font-family: 'Dancing Script', cursive;
   display: flex;
   justify-content: center;
+  position: fixed;
+  width: 100vw;
 }

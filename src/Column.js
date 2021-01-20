@@ -30,6 +30,7 @@ const Container = styled.div`
   align-items: center;
   max-height: 90vh;
   width: 20vw;
+  min-width: 20vw;
 `;
 
 const OptionIcon = styled.img`
@@ -46,7 +47,7 @@ const TaskList = styled.div`
   transition: background-color .3s;
   width: 100%;
   border-radius: 10px 10px;
-  min-height: 10px;
+  min-height: 50px;
 `;
 
 const Title = styled.h3`

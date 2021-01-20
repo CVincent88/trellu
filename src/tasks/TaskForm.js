@@ -10,7 +10,7 @@ const Form = styled.form`
   width: 100%
 `;
 
-const Textarea = styled.textarea`
+const Textarea = styled.input`
   border-radius: 10px 10px;
   padding: 10px;
   border: 0;
@@ -67,10 +67,10 @@ function TaskForm({registerNewTask, columnId}) {
         placeholder="Nouvelle tâche"
       />
       <Button 
-        className="validateButton"
         mouseDown={buttonPressed}
         onMouseDown={() => toggleButtonLook()}
         onMouseUp={() => toggleButtonLook()}
+        type="submit"
       >
         Ajouter
       </Button>

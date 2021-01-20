@@ -11,6 +11,7 @@ import styled from 'styled-components'
 const Container = styled.div`
   display: flex;
   align-items: flex-start;
+  margin-top: 50px;
 `;
 
 class InnerList extends React.PureComponent {
@@ -44,6 +45,8 @@ class InnerList extends React.PureComponent {
 function App() {
 
   const initialData = {
+    numberOfTasks: 0,
+    numberOfColumns: 0,
     tasks: {
 
     },
@@ -71,7 +74,7 @@ function App() {
     const {columns, columnOrder} = data
 
     const newColumn = {
-      id: `column-${columnOrder.length + 1}`,
+      id: `column-${data.numberOfColumns + 1}`,
       title: title,
       tasksIds: []
     }
@@ -83,6 +86,7 @@ function App() {
 
     const newState = {
       ...data,
+      numberOfColumns: data.numberOfColumns + 1,
       columns: {
         ...columns,
         [newColumn.id]: {
@@ -103,9 +107,9 @@ function App() {
     const {tasks, columns} = data
 
     const newTask = {
-      id: `task-${Object.keys(tasks).length + 1}`,
+      id: `task-${data.numberOfTasks + 1}`,
       content: newTaskContent,
-      validated: false
+      validated: false,
     }
 
     const newTasksIds = [
@@ -115,6 +119,7 @@ function App() {
 
     const newState = {
       ...data,
+      numberOfTasks: data.numberOfTasks + 1,
       tasks: {
         ...tasks,
         [newTask.id]: {
@@ -207,18 +212,20 @@ function App() {
       })
 
     }else if(type === 'column'){
+
       const newColumnList = data.columns;
       delete newColumnList[columnId]
 
       const newColumnOrder = data.columnOrder
-      delete newColumnOrder[columnId]
+      const index = newColumnOrder.indexOf(columnId)
+      newColumnOrder.splice(index, 1)
 
       const newState = {
         ...data,
         columns: {
-          newColumnList
+          ...newColumnList
         },
-        newColumnOrder
+        columnOrder: newColumnOrder
       }
 
       setData(prevState => {
