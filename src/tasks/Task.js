@@ -40,11 +40,12 @@ const Content = styled.div`
   display: flex;
   align-items: center;
   text-decoration: ${props => (props.task.validated ? 'line-through' : 'none')};
-  margin: 0 10px
+  margin-left: 10px;
+  text-align: left
 `;
 
 const DragHandle = styled.img`
-  margin-right: 8px
+  margin-right: 10px
 `;
 
 function Task({index, task, deleteElement, columnId, toggleMenu, validateTask, menuToOpen}) {
