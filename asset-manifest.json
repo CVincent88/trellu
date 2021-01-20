@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/trellu/static/css/main.862003ac.chunk.css",
-    "main.js": "/trellu/static/js/main.32d648ff.chunk.js",
-    "main.js.map": "/trellu/static/js/main.32d648ff.chunk.js.map",
+    "main.js": "/trellu/static/js/main.be4345ae.chunk.js",
+    "main.js.map": "/trellu/static/js/main.be4345ae.chunk.js.map",
     "runtime-main.js": "/trellu/static/js/runtime-main.fbfff3c1.js",
     "runtime-main.js.map": "/trellu/static/js/runtime-main.fbfff3c1.js.map",
     "static/js/2.79ae38ef.chunk.js": "/trellu/static/js/2.79ae38ef.chunk.js",
@@ -19,6 +19,6 @@
     "static/js/runtime-main.fbfff3c1.js",
     "static/js/2.79ae38ef.chunk.js",
     "static/css/main.862003ac.chunk.css",
-    "static/js/main.32d648ff.chunk.js"
+    "static/js/main.be4345ae.chunk.js"
   ]
 }
