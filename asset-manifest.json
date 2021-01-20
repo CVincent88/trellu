@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/trellu/static/css/main.06256916.chunk.css",
-    "main.js": "/trellu/static/js/main.5b83a812.chunk.js",
-    "main.js.map": "/trellu/static/js/main.5b83a812.chunk.js.map",
+    "main.css": "/trellu/static/css/main.a3275bd8.chunk.css",
+    "main.js": "/trellu/static/js/main.73bbb70e.chunk.js",
+    "main.js.map": "/trellu/static/js/main.73bbb70e.chunk.js.map",
     "runtime-main.js": "/trellu/static/js/runtime-main.fbfff3c1.js",
     "runtime-main.js.map": "/trellu/static/js/runtime-main.fbfff3c1.js.map",
     "static/js/2.79ae38ef.chunk.js": "/trellu/static/js/2.79ae38ef.chunk.js",
@@ -10,7 +10,7 @@
     "static/js/3.3848818e.chunk.js": "/trellu/static/js/3.3848818e.chunk.js",
     "static/js/3.3848818e.chunk.js.map": "/trellu/static/js/3.3848818e.chunk.js.map",
     "index.html": "/trellu/index.html",
-    "static/css/main.06256916.chunk.css.map": "/trellu/static/css/main.06256916.chunk.css.map",
+    "static/css/main.a3275bd8.chunk.css.map": "/trellu/static/css/main.a3275bd8.chunk.css.map",
     "static/js/2.79ae38ef.chunk.js.LICENSE.txt": "/trellu/static/js/2.79ae38ef.chunk.js.LICENSE.txt",
     "static/media/ellipsis-v-solid.33b29c57.svg": "/trellu/static/media/ellipsis-v-solid.33b29c57.svg",
     "static/media/grip-lines-solid.c2781a6f.svg": "/trellu/static/media/grip-lines-solid.c2781a6f.svg"
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.fbfff3c1.js",
     "static/js/2.79ae38ef.chunk.js",
-    "static/css/main.06256916.chunk.css",
-    "static/js/main.5b83a812.chunk.js"
+    "static/css/main.a3275bd8.chunk.css",
+    "static/js/main.73bbb70e.chunk.js"
   ]
 }
