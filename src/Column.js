@@ -28,8 +28,16 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 20vw;
-  min-width: 20vw;
+  min-width: 60vw;
+  @media (min-width: 550px){
+    min-width: 40vw
+  };
+  @media (min-width: 768px){
+    min-width: 30vw
+  };
+  @media (min-width: 900px){
+    min-width: 20vw
+  }
 `;
 
 const OptionIcon = styled.img`

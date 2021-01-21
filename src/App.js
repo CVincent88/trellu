@@ -1,17 +1,23 @@
-import './App.css';
 import React, { useState } from 'react'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
-// import initialData from './initial-data'
 import Header from './Header'
 import Column from './Column'
 import ListCreator from './ListCreator'
 
 import styled from 'styled-components'
 
+const AppContainer = styled.div`
+  min-height: 100vh;
+  background: rgb(0,255,149);
+  background: linear-gradient(90deg, rgba(0,255,149,1) 0%, rgba(0,212,255,1) 100%); 
+  align-items: flex-start;
+`;
+
 const Container = styled.div`
   display: flex;
   align-items: flex-start;
-  margin-top: 50px;
+  overflow-x: scroll;
+  min-height: calc(100vh - 50px);
 `;
 
 class InnerList extends React.PureComponent {
@@ -346,7 +352,7 @@ function App() {
   }
 
   return(
-    <div className="App">
+    <AppContainer>
       <Header />
       <DragDropContext 
         onDragStart={(start, provided) => onDragStart(start, provided)}
@@ -385,7 +391,7 @@ function App() {
         
       </DragDropContext>
       
-    </div>
+    </AppContainer>
   )
 }
 
